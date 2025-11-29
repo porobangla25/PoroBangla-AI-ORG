@@ -81,7 +81,22 @@ BEGIN NOTES for the given user input (Topic: ${request.topic}, Standard/Level: $
             }
         });
 
-        const text = response.text || "Failed to generate notes. Please try again.";
+        let text = response.text || "Failed to generate notes. Please try again.";
+        
+        // Extract and append grounding sources if available
+        const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
+        if (groundingChunks) {
+            const uniqueUrls = new Set<string>();
+            groundingChunks.forEach((chunk: any) => {
+                if (chunk.web?.uri) {
+                    uniqueUrls.add(chunk.web.uri);
+                }
+            });
+
+            if (uniqueUrls.size > 0) {
+                text += `\n\n### Sources\n${Array.from(uniqueUrls).map(url => `- ${url}`).join('\n')}`;
+            }
+        }
         
         return text;
     } catch (error) {
