@@ -3,61 +3,58 @@ import MotionBackground from './components/MotionBackground';
 import Notebook from './components/Notebook';
 import { generateNotes } from './services/geminiService';
 import { NoteRequest, AppState } from './types';
-import { Sparkles, BookOpen, BrainCircuit, Globe, ArrowRight, Loader2, PenTool, Search, GraduationCap, Zap, ArrowLeft } from 'lucide-react';
+import { Sparkles, ArrowRight, Loader2, Search, GraduationCap, Zap, ArrowLeft, Layers, Globe, Command } from 'lucide-react';
 
 // --- Subcomponents for App Structure ---
 
 const HeroSection = ({ onStart }: { onStart: () => void }) => (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] text-center px-4 animate-slide-up">
-        <div className="mb-6 relative">
-            <div className="absolute inset-0 bg-lumina-primary blur-3xl opacity-30 rounded-full animate-pulse"></div>
-            <h1 className="relative text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-lumina-paper to-gray-400 mb-2 tracking-tight">
-                Lumina Notes
-            </h1>
-            <span className="absolute -top-4 -right-8 bg-lumina-secondary text-white text-xs font-bold px-2 py-1 rounded-full animate-bounce">
-                AI Powered
-            </span>
+    <div className="flex flex-col items-center justify-center min-h-[85vh] text-center px-6 animate-fade-in-up">
+        {/* Badge */}
+        <div className="mb-8 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_15px_-3px_rgba(255,255,255,0.05)] backdrop-blur-md">
+            <span className="flex h-2 w-2 rounded-full bg-teal-400 animate-pulse"></span>
+            <span className="text-xs font-medium text-gray-300 tracking-wide uppercase">AI 2.0 Now Live</span>
         </div>
+
+        {/* Hero Title */}
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 relative z-10">
+            Intelligent Notes <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-white">
+                Reimagined.
+            </span>
+        </h1>
         
-        <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mb-12 font-light leading-relaxed">
-            Transform any topic into <span className="text-lumina-accent font-semibold">beautifully handwritten</span>, structured study notes instantly.
+        {/* Subtitle */}
+        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 font-light leading-relaxed tracking-wide">
+            Transform complex topics into perfectly structured, academic-grade study materials instantly. 
+            The new standard for modern learning.
         </p>
 
+        {/* CTA Button */}
         <button 
             onClick={onStart}
-            className="group relative px-8 py-4 bg-white text-lumina-dark font-bold text-lg rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)] hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.7)] transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+            className="group relative px-10 py-4 rounded-full bg-white text-black font-semibold text-base transition-all duration-300 hover:scale-[1.02] shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_-5px_rgba(255,255,255,0.4)]"
         >
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-200 via-white to-pink-200 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg"></div>
             <span className="relative z-10 flex items-center gap-2">
-                Create Notes Now <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform"/>
+                Generate Notes <ArrowRight size={18} className="text-gray-900 group-hover:translate-x-1 transition-transform"/>
             </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-lumina-primary via-lumina-secondary to-lumina-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
         </button>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 w-full max-w-5xl">
+        {/* Feature Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 w-full max-w-5xl">
             {[
-                { icon: <BookOpen className="text-lumina-primary" />, title: "Structured Learning", desc: "Perfectly organized content with headings and bullets." },
-                { icon: <Globe className="text-lumina-accent" />, title: "Multi-Language", desc: "Support for English and Bengali with native nuances." },
-                { icon: <BrainCircuit className="text-lumina-secondary" />, title: "Smart Summaries", desc: "Complex topics simplified for your grade level." }
+                { icon: <Layers className="text-violet-400" />, title: "Structured Depth", desc: "Auto-organized hierarchy" },
+                { icon: <Globe className="text-teal-400" />, title: "Polyglot Core", desc: "Native English & Bengali" },
+                { icon: <Command className="text-pink-400" />, title: "Smart Context", desc: "Adaptive grade levels" }
             ].map((feature, idx) => (
-                <div key={idx} className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 transition-colors cursor-default">
-                    <div className="mb-4 bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <div key={idx} className="group p-6 rounded-2xl bg-lumina-surface/40 border border-lumina-border hover:border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-lumina-surface/60 cursor-default">
+                    <div className="mb-4 w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/5 group-hover:scale-110 transition-transform duration-300">
                         {feature.icon}
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-gray-400 text-sm">{feature.desc}</p>
+                    <h3 className="text-base font-semibold text-gray-200 mb-1">{feature.title}</h3>
+                    <p className="text-sm text-gray-500">{feature.desc}</p>
                 </div>
             ))}
-        </div>
-        
-        {/* Upcoming Features Ticker */}
-        <div className="mt-20 w-full overflow-hidden border-t border-white/5 pt-8">
-            <p className="text-sm text-gray-500 uppercase tracking-widest mb-4">Coming Soon</p>
-            <div className="flex justify-center gap-8 text-gray-400 text-sm font-medium">
-                <span className="flex items-center gap-2"><Sparkles size={14}/> PDF Export</span>
-                <span className="flex items-center gap-2"><Sparkles size={14}/> Quiz Generator</span>
-                <span className="flex items-center gap-2"><Sparkles size={14}/> Flashcards</span>
-            </div>
         </div>
     </div>
 );
@@ -85,51 +82,48 @@ const GeneratorForm = ({
     const suggestedGrades = ["Class 12", "Undergraduate", "UPSC", "Professional"];
 
     return (
-        <div className="min-h-[80vh] flex items-center justify-center px-4 py-10 animate-slide-up relative z-10">
-            {/* Main Card Container with Glow Effect */}
-            <div className="relative w-full max-w-lg group">
-                {/* Ambient Glow Gradient behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-500 rounded-[2rem] opacity-30 blur-2xl group-hover:opacity-50 transition duration-1000"></div>
+        <div className="min-h-[80vh] flex items-center justify-center px-4 animate-fade-in-up z-20">
+            {/* Glass Panel Container */}
+            <div className="relative w-full max-w-[520px]">
                 
-                <div className="relative bg-[#0F1115]/80 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl overflow-hidden ring-1 ring-white/5">
-                    
-                    {/* Subtle Interior Lighting */}
-                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-                    <div className="absolute -top-32 -right-32 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                    <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                {/* Back Button */}
+                {!isLoading && (
+                    <button 
+                        onClick={onBack}
+                        className="absolute -left-16 top-0 hidden md:flex p-3 rounded-full text-gray-500 hover:text-white hover:bg-white/5 transition-all"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                )}
 
+                <div className="bg-[#0F1115]/60 backdrop-blur-2xl border border-white/10 rounded-[24px] p-8 md:p-10 shadow-2xl ring-1 ring-white/5 relative overflow-hidden">
+                    
                     {/* Header */}
-                    <div className="flex flex-col items-center mb-8 relative z-10">
-                         <button 
-                            onClick={!isLoading ? onBack : undefined} 
-                            className={`absolute left-0 top-1 p-2 -ml-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/5 ${isLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-                        >
-                            <ArrowLeft size={20} />
-                        </button>
-                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30 mb-4 transform rotate-3">
-                            <Sparkles className="text-white" size={24} />
+                    <div className="mb-10 text-center relative z-10">
+                        <div className="w-12 h-12 mx-auto bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-xl flex items-center justify-center border border-white/10 mb-4 shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]">
+                            <Sparkles className="text-violet-300" size={20} />
                         </div>
-                        <h2 className="text-3xl font-bold text-white tracking-tight">Generate Notes</h2>
-                        <p className="text-gray-400 text-sm mt-2">AI-powered study material creator</p>
+                        <h2 className="text-2xl font-bold text-white tracking-tight">Configure Session</h2>
+                        <p className="text-gray-500 text-sm mt-2">Define parameters for your generated notes.</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                    <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                         {/* Wrapper for Inputs */}
-                        <div className={`space-y-5 transition-all duration-500 ${isLoading ? 'opacity-20 blur-[2px] pointer-events-none grayscale' : ''}`}>
+                        <div className={`space-y-6 transition-all duration-500 ${isLoading ? 'opacity-20 blur-sm pointer-events-none' : ''}`}>
                             
                             {/* Topic Input */}
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Topic / Subject</label>
-                                <div className="relative group/input">
-                                    <div className="absolute left-4 top-3.5 text-gray-500 group-focus-within/input:text-purple-400 transition-colors">
-                                        <Search size={18} />
+                            <div className="space-y-2 group">
+                                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-widest pl-1">Topic</label>
+                                <div className="relative">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-violet-400 transition-colors">
+                                        <Search size={16} />
                                     </div>
                                     <input 
                                         type="text" 
                                         value={topic}
                                         onChange={(e) => setTopic(e.target.value)}
-                                        placeholder="What do you want to learn?"
-                                        className="w-full bg-black/30 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/50 focus:bg-black/50 focus:ring-2 focus:ring-purple-500/20 transition-all shadow-inner"
+                                        placeholder="e.g. Quantum Mechanics"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-violet-500/50 focus:bg-white/10 focus:ring-4 focus:ring-violet-500/10 transition-all"
                                         required
                                         disabled={isLoading}
                                     />
@@ -137,42 +131,37 @@ const GeneratorForm = ({
                             </div>
 
                             {/* Standard / Level Input */}
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Level / Standard</label>
-                                <div className="relative group/input">
-                                    <div className="absolute left-4 top-3.5 text-gray-500 group-focus-within/input:text-pink-400 transition-colors">
-                                        <GraduationCap size={18} />
+                            <div className="space-y-2 group">
+                                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-widest pl-1">Complexity</label>
+                                <div className="relative">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-pink-400 transition-colors">
+                                        <GraduationCap size={16} />
                                     </div>
                                     <input
                                         type="text"
                                         list="grade-levels"
                                         value={grade}
                                         onChange={(e) => setGrade(e.target.value)}
-                                        placeholder="e.g. Class 12, UPSC, MBA..."
-                                        className="w-full bg-black/30 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-pink-500/50 focus:bg-black/50 focus:ring-2 focus:ring-pink-500/20 transition-all shadow-inner"
+                                        placeholder="e.g. Undergraduate, Beginner..."
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-pink-500/50 focus:bg-white/10 focus:ring-4 focus:ring-pink-500/10 transition-all"
                                         required
                                         disabled={isLoading}
                                     />
                                     <datalist id="grade-levels">
-                                        <option value="Class 10" />
-                                        <option value="Class 12 (Science)" />
-                                        <option value="Undergraduate (B.Tech/B.Sc)" />
-                                        <option value="Postgraduate (MBA/M.Tech)" />
-                                        <option value="UPSC / Civil Services" />
-                                        <option value="JEE / NEET Preparation" />
-                                        <option value="Professional Certification" />
-                                        <option value="Beginner" />
-                                        <option value="Advanced / PhD" />
+                                        <option value="Class 12" />
+                                        <option value="Undergraduate" />
+                                        <option value="Postgraduate" />
+                                        <option value="UPSC" />
+                                        <option value="Professional" />
                                     </datalist>
                                 </div>
-                                {/* Suggestions Chips */}
-                                <div className="flex flex-wrap gap-2 mt-2 px-1">
+                                <div className="flex flex-wrap gap-2 pt-1">
                                     {suggestedGrades.map((g) => (
                                         <button
                                             key={g}
                                             type="button"
                                             onClick={() => setGrade(g)}
-                                            className="text-[10px] font-medium px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/5 text-gray-400 hover:text-white transition-all cursor-pointer"
+                                            className="text-[10px] font-medium px-2 py-1 rounded-md bg-white/5 border border-white/5 text-gray-500 hover:text-gray-300 hover:bg-white/10 transition-all"
                                         >
                                             {g}
                                         </button>
@@ -182,42 +171,43 @@ const GeneratorForm = ({
 
                             {/* Language Toggle */}
                             <div className="space-y-2">
-                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Language</label>
-                                <div className="bg-black/30 p-1.5 rounded-xl border border-white/10 flex relative">
-                                    {/* Sliding Background */}
+                                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-widest pl-1">Language</label>
+                                <div className="bg-black/40 p-1 rounded-xl border border-white/10 flex relative">
                                     <div 
-                                        className={`absolute h-[calc(100%-0.75rem)] w-[calc(50%-0.375rem)] bg-gray-700/50 rounded-lg transition-all duration-300 ease-out shadow-sm border border-white/10 ${language === 'Bengali' ? 'translate-x-full' : 'translate-x-0'}`} 
+                                        className={`absolute h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] top-1 bg-gray-700/80 rounded-lg shadow-sm transition-all duration-300 ease-out border border-white/10 ${language === 'Bengali' ? 'left-[calc(50%+0.125rem)]' : 'left-1'}`} 
                                     ></div>
                                     
                                     <button
                                         type="button"
                                         onClick={() => setLanguage('English')}
-                                        className={`relative flex-1 py-2.5 text-sm font-medium rounded-lg transition-colors z-10 flex items-center justify-center gap-2 ${language === 'English' ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
+                                        className={`relative flex-1 py-2 text-xs font-medium rounded-lg transition-colors z-10 ${language === 'English' ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
                                     >
-                                        <span className="text-xs opacity-70">A</span> English
+                                        English
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setLanguage('Bengali')}
-                                        className={`relative flex-1 py-2.5 text-sm font-medium rounded-lg transition-colors z-10 flex items-center justify-center gap-2 ${language === 'Bengali' ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
+                                        className={`relative flex-1 py-2 text-xs font-medium rounded-lg transition-colors z-10 ${language === 'Bengali' ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
                                     >
-                                        <span className="text-xs opacity-70">অ</span> Bengali
+                                        Bengali
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Loading Indicator Overlay */}
+                        {/* Loading Overlay */}
                         {isLoading && (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center z-20 animate-fade-in">
-                                <div className="relative w-16 h-16 mb-4">
-                                    <div className="absolute inset-0 bg-purple-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
-                                    <div className="relative bg-[#0F1115] p-4 rounded-full border border-white/10 shadow-2xl flex items-center justify-center">
-                                        <Loader2 className="text-purple-400 animate-spin" size={24} />
+                            <div className="absolute inset-0 flex flex-col items-center justify-center z-30 animate-fade-in-up">
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-violet-500/30 blur-2xl rounded-full"></div>
+                                    <div className="bg-black/80 p-4 rounded-2xl border border-white/10 shadow-xl relative backdrop-blur-md">
+                                        <Loader2 className="text-violet-400 animate-spin" size={24} />
                                     </div>
                                 </div>
-                                <h3 className="text-lg font-bold text-white tracking-wide animate-pulse">Crafting Notes...</h3>
-                                <p className="text-xs text-gray-500 mt-1 uppercase tracking-widest">Please Wait</p>
+                                <div className="mt-4 text-center">
+                                    <h3 className="text-sm font-semibold text-white tracking-wide">Synthesizing Notes</h3>
+                                    <p className="text-xs text-gray-500 mt-1">This may take a moment</p>
+                                </div>
                             </div>
                         )}
 
@@ -225,12 +215,14 @@ const GeneratorForm = ({
                         <button 
                             type="submit" 
                             disabled={isLoading}
-                            className={`w-full group relative overflow-hidden rounded-xl p-px transition-all duration-300 ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-[0_0_40px_-10px_rgba(168,85,247,0.5)] hover:-translate-y-0.5'}`}
+                            className={`w-full relative overflow-hidden rounded-xl group transition-all duration-300 ${isLoading ? 'opacity-0 cursor-default' : 'hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.4)]'}`}
                         >
-                            <span className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 rounded-xl"></span>
-                            <div className="relative bg-gradient-to-r from-pink-600 to-purple-700 text-white h-full w-full rounded-xl px-4 py-4 flex items-center justify-center gap-2 font-bold tracking-wide">
-                                <Zap size={18} className={`${isLoading ? 'hidden' : 'fill-current'}`} />
-                                <span>{isLoading ? 'Generating...' : 'Generate Notes'}</span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 transition-transform duration-500 group-hover:scale-105"></div>
+                            <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            
+                            <div className="relative px-6 py-4 flex items-center justify-center gap-2 text-white font-semibold text-sm tracking-wide">
+                                <Zap size={16} className="fill-white/90" />
+                                <span>Generate Notes</span>
                             </div>
                         </button>
                     </form>
@@ -261,7 +253,7 @@ const App: React.FC = () => {
             setGeneratedContent(content);
             setAppState(AppState.RESULT);
         } catch (error) {
-            alert("Oops! Something went wrong. Please check your API key or try again.");
+            alert("Connection interrupted. Please verify API key.");
             console.error(error);
         } finally {
             setIsLoading(false);
@@ -269,27 +261,25 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="relative min-h-screen text-white font-sans selection:bg-lumina-primary selection:text-white">
+        <div className="relative min-h-screen text-gray-200 font-sans selection:bg-violet-500/30 selection:text-violet-200 overflow-x-hidden">
             <MotionBackground />
             
-            {/* Header / Nav (Minimal) */}
-            <nav className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-20">
-                <div className="flex items-center gap-2 font-bold text-xl tracking-tight cursor-pointer group" onClick={() => !isLoading && setAppState(AppState.HOME)}>
-                    <div className="w-8 h-8 bg-gradient-to-tr from-lumina-primary to-lumina-secondary rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:rotate-12 transition-transform">
-                        <span className="text-white">L</span>
+            {/* Minimal Nav */}
+            <nav className="fixed top-0 left-0 right-0 p-6 flex justify-between items-center z-40 pointer-events-none print:hidden">
+                <div 
+                    className={`flex items-center gap-3 pointer-events-auto transition-all duration-300 ${appState !== AppState.HOME ? 'opacity-100' : 'opacity-100'}`}
+                    onClick={() => !isLoading && setAppState(AppState.HOME)}
+                >
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/20 cursor-pointer hover:opacity-90 transition-opacity">
+                        <span className="font-bold text-white text-lg">L</span>
                     </div>
-                    <span>Lumina</span>
+                    <span className="font-medium text-white/90 tracking-tight text-lg cursor-pointer hidden md:block">Lumina</span>
                 </div>
-                {!process.env.API_KEY && (
-                    <div className="bg-red-500/20 text-red-200 px-4 py-1 rounded-full text-xs border border-red-500/30">
-                        API Key Missing
-                    </div>
-                )}
             </nav>
 
-            <main className="relative z-10 pt-20 pb-10">
+            <main className="relative z-10 pt-20 pb-10 min-h-screen flex flex-col">
                 {appState === AppState.HOME && (
-                    <HeroSection onStart={() => setAppState(AppState.GENERATING)} />
+                    <HeroSection onStart={handleStart} />
                 )}
 
                 {appState === AppState.GENERATING && (
@@ -303,7 +293,7 @@ const App: React.FC = () => {
                 {appState === AppState.RESULT && (
                     <Notebook 
                         content={generatedContent} 
-                        topic={noteRequest?.topic || 'Notes'} 
+                        topic={noteRequest?.topic || 'Untitled'} 
                         onBack={() => setAppState(AppState.GENERATING)}
                     />
                 )}

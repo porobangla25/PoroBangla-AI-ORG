@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lumina Notes AI</title>
+    <title>Lumina AI - Premium Note Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Patrick+Hand&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script>
       tailwind.config = {
@@ -15,43 +15,42 @@
           extend: {
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
-              hand: ['Patrick Hand', 'cursive'],
-              serif: ['Playfair Display', 'serif'],
+              mono: ['JetBrains Mono', 'monospace'],
             },
             colors: {
               lumina: {
-                dark: '#0f172a',
-                primary: '#8b5cf6',
-                secondary: '#ec4899',
-                accent: '#06b6d4',
-                paper: '#fdfbf7',
-                line: '#a5b4fc',
+                bg: '#050507', // Deepest charcoal
+                surface: '#121216', // Slightly lighter surface
+                glass: 'rgba(255, 255, 255, 0.03)',
+                border: 'rgba(255, 255, 255, 0.08)',
+                primary: '#A855F7', // Purple
+                secondary: '#EC4899', // Pink
+                accent: '#2DD4BF', // Teal
+                text: {
+                  primary: '#F8FAFC',
+                  secondary: '#94A3B8',
+                  muted: '#475569'
+                }
               }
             },
             animation: {
-              'blob': 'blob 7s infinite',
-              'fade-in': 'fadeIn 0.5s ease-out forwards',
-              'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-              'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'aurora': 'aurora 20s linear infinite',
+              'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
             },
             keyframes: {
-              blob: {
-                '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              aurora: {
+                '0%': { transform: 'translate(0%, 0%) rotate(0deg)' },
+                '50%': { transform: 'translate(10%, 5%) rotate(5deg)' },
+                '100%': { transform: 'translate(0%, 0%) rotate(0deg)' },
               },
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
-              },
-              slideUp: {
-                '0%': { opacity: '0', transform: 'translateY(40px)' },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
               },
-              pulseGlow: {
-                '0%, 100%': { opacity: '1', boxShadow: '0 0 15px -3px rgba(139, 92, 246, 0.3)' },
-                '50%': { opacity: '0.9', boxShadow: '0 0 30px 5px rgba(236, 72, 153, 0.5)' },
+              pulseSubtle: {
+                '0%, 100%': { opacity: '0.6' },
+                '50%': { opacity: '1' },
               }
             }
           }
@@ -61,38 +60,53 @@
     <style>
       body {
         margin: 0;
-        overflow-x: hidden;
-        background-color: #0f172a;
-        color: white;
+        background-color: #050507;
+        color: #F8FAFC;
+        -webkit-font-smoothing: antialiased;
       }
-      /* Custom Scrollbar */
+      
+      /* Modern Scrollbar */
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
+        height: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #1e293b; 
+        background: transparent; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #475569; 
-        border-radius: 4px;
+        background: #334155; 
+        border-radius: 99px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #64748b; 
+        background: #475569; 
       }
       
-      .paper-pattern {
-        background-color: #fdfbf7;
-        background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-        background-size: 20px 20px;
-      }
-      
-      /* Force KaTeX to be black/dark for visibility on paper background */
+      /* Force KaTeX to be dark gray/black for academic readability on white paper */
       .katex {
-        color: #1f2937 !important; /* gray-800 */
+        color: #1e293b !important;
         font-weight: 500;
       }
       .katex-display {
-         color: #1f2937 !important;
+         color: #1e293b !important;
+      }
+
+      @media print {
+        @page {
+          margin: 1cm;
+        }
+        body, html {
+          background-color: white !important;
+          color: black !important;
+          height: auto !important;
+          overflow: visible !important;
+          width: 100% !important;
+        }
+        
+        /* Ensure all text is black for printing */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
       }
     </style>
   <script type="importmap">
