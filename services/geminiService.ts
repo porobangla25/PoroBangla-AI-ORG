@@ -2,11 +2,8 @@ import { GoogleGenAI } from "@google/genai";
 import { NoteRequest } from '../types';
 
 const getClient = () => {
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-        throw new Error("API Key is missing");
-    }
-    return new GoogleGenAI({ apiKey });
+    // API key must be obtained from process.env.API_KEY per guidelines
+    return new GoogleGenAI({ apiKey: process.env.API_KEY });
 };
 
 export const generateNotes = async (request: NoteRequest): Promise<string> => {
@@ -79,14 +76,12 @@ BEGIN NOTES for the given user input (Topic: ${request.topic}, Standard/Level: $
             config: {
                 temperature: 0.5,
                 topK: 40,
-                maxOutputTokens: 8192,
+                // Removed maxOutputTokens to prevent potential issues with thinking budget
                 tools: [{ googleSearch: {} }], // Enable Google Search grounding
             }
         });
 
         const text = response.text || "Failed to generate notes. Please try again.";
-
-        // Logic to append sources has been removed as per instructions.
         
         return text;
     } catch (error) {
