@@ -39,11 +39,14 @@ Before writing the notes, perform a web search (using the attached tool) to fetc
 - Use tables for comparisons, advantages/disadvantages, differences (where relevant).
 - Use callout boxes (via bold labels like **Definition:**, **Important:**, **Tip for Exams:**, **💡 Key Idea:**) to highlight key ideas or warnings.
 
-3. Tone & Style:
-- Write as a patient and clear teacher explaining to students.
-- Use simple, understandable language.
-- Maintain academic seriousness — avoid slang or overly casual tone.
-- Provide both conceptual understanding and exam-ready clarity.
+3. Tone & Style - ADAPTIVE COMPLEXITY:
+- **CRITICAL:** Adapt the complexity, depth, and vocabulary strictly to the User's Standard/Class ("${request.grade}").
+- If the standard is "5th Grade", use simple analogies and very easy language.
+- If the standard is "Undergraduate" or "PhD", use rigorous academic depth and technical terminology.
+- If the standard is "Competitive Exam" (e.g., UPSC, JEE), focus on exam-oriented key points, shortcuts, and high-yield facts.
+- If the standard is "Professional" (e.g., AWS, PMP), focus on industry application and best practices.
+- Write as a patient and clear teacher explaining to students of that specific level.
+- Maintain academic seriousness — avoid slang.
 
 4. Depth & Completeness:
 - Cover all subtopics relevant to the given topic.
@@ -66,7 +69,7 @@ Before writing the notes, perform a web search (using the attached tool) to fetc
 - Add “Common Mistakes / Pitfalls” section.
 - Add “Exam Tips / Quick Revision” section.
 
-BEGIN NOTES for the given user input (Topic: ${request.topic}, Class: ${request.grade}, Language: ${request.language}).
+BEGIN NOTES for the given user input (Topic: ${request.topic}, Standard/Level: ${request.grade}, Language: ${request.language}).
     `;
 
     try {

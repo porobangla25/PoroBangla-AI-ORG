@@ -3,7 +3,7 @@ import MotionBackground from './components/MotionBackground';
 import Notebook from './components/Notebook';
 import { generateNotes } from './services/geminiService';
 import { NoteRequest, AppState } from './types';
-import { Sparkles, BookOpen, BrainCircuit, Globe, ArrowRight, Loader2, PenTool } from 'lucide-react';
+import { Sparkles, BookOpen, BrainCircuit, Globe, ArrowRight, Loader2, PenTool, Search, GraduationCap, Zap, ArrowLeft } from 'lucide-react';
 
 // --- Subcomponents for App Structure ---
 
@@ -82,117 +82,156 @@ const GeneratorForm = ({
         }
     };
 
-    const inputClasses = "w-full bg-black/20 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-lumina-primary focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed";
+    const suggestedGrades = ["Class 12", "Undergraduate", "UPSC", "Professional"];
 
     return (
-        <div className="min-h-[80vh] flex items-center justify-center px-4 animate-slide-up">
-            <div className="w-full max-w-xl bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden transition-all duration-500">
-                {/* Decorative blob inside card */}
-                <div className={`absolute -top-20 -right-20 w-40 h-40 bg-lumina-secondary blur-3xl opacity-20 transition-all duration-1000 ${isLoading ? 'scale-150 opacity-40 animate-pulse' : ''}`}></div>
-
-                <div className="relative z-10">
-                    <button 
-                        onClick={!isLoading ? onBack : undefined} 
-                        className={`text-sm text-gray-400 hover:text-white mb-6 flex items-center gap-1 transition ${isLoading ? 'opacity-0 cursor-default pointer-events-none' : 'opacity-100'}`}
-                    >
-                        ← Back Home
-                    </button>
+        <div className="min-h-[80vh] flex items-center justify-center px-4 py-10 animate-slide-up relative z-10">
+            {/* Main Card Container with Glow Effect */}
+            <div className="relative w-full max-w-lg group">
+                {/* Ambient Glow Gradient behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-500 rounded-[2rem] opacity-30 blur-2xl group-hover:opacity-50 transition duration-1000"></div>
+                
+                <div className="relative bg-[#0F1115]/80 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl overflow-hidden ring-1 ring-white/5">
                     
-                    <h2 className="text-3xl font-bold mb-2">Configure Your Notes</h2>
-                    <p className="text-gray-400 mb-8">Tell AI what you need to study today.</p>
+                    {/* Subtle Interior Lighting */}
+                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                    <div className="absolute -top-32 -right-32 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6 relative">
-                        {/* Wrapper for Inputs to apply blur/disable visually */}
-                        <div className={`space-y-6 transition-all duration-700 ${isLoading ? 'opacity-30 blur-sm pointer-events-none grayscale' : 'opacity-100'}`}>
-                            <div className="space-y-2 group">
-                                <label className="text-sm font-medium text-gray-300 ml-1">Topic / Subject</label>
-                                <input 
-                                    type="text" 
-                                    value={topic}
-                                    onChange={(e) => setTopic(e.target.value)}
-                                    placeholder="e.g., Photosynthesis, The French Revolution"
-                                    className={inputClasses}
-                                    required
-                                    disabled={isLoading}
-                                />
-                            </div>
+                    {/* Header */}
+                    <div className="flex flex-col items-center mb-8 relative z-10">
+                         <button 
+                            onClick={!isLoading ? onBack : undefined} 
+                            className={`absolute left-0 top-1 p-2 -ml-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/5 ${isLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+                        >
+                            <ArrowLeft size={20} />
+                        </button>
+                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30 mb-4 transform rotate-3">
+                            <Sparkles className="text-white" size={24} />
+                        </div>
+                        <h2 className="text-3xl font-bold text-white tracking-tight">Generate Notes</h2>
+                        <p className="text-gray-400 text-sm mt-2">AI-powered study material creator</p>
+                    </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300 ml-1">Grade Level</label>
-                                    <select 
-                                        value={grade}
-                                        onChange={(e) => setGrade(e.target.value)}
-                                        className={`${inputClasses} appearance-none cursor-pointer`}
+                    <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                        {/* Wrapper for Inputs */}
+                        <div className={`space-y-5 transition-all duration-500 ${isLoading ? 'opacity-20 blur-[2px] pointer-events-none grayscale' : ''}`}>
+                            
+                            {/* Topic Input */}
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Topic / Subject</label>
+                                <div className="relative group/input">
+                                    <div className="absolute left-4 top-3.5 text-gray-500 group-focus-within/input:text-purple-400 transition-colors">
+                                        <Search size={18} />
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        value={topic}
+                                        onChange={(e) => setTopic(e.target.value)}
+                                        placeholder="What do you want to learn?"
+                                        className="w-full bg-black/30 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/50 focus:bg-black/50 focus:ring-2 focus:ring-purple-500/20 transition-all shadow-inner"
                                         required
                                         disabled={isLoading}
-                                    >
-                                        <option value="" disabled>Select Grade</option>
-                                        <option value="5th Grade">5th Grade</option>
-                                        <option value="8th Grade">8th Grade</option>
-                                        <option value="10th Grade (High School)">10th Grade</option>
-                                        <option value="12th Grade (Senior High)">12th Grade</option>
-                                        <option value="Undergraduate">Undergraduate</option>
-                                    </select>
+                                    />
                                 </div>
+                            </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300 ml-1">Language</label>
-                                    <div className={`grid grid-cols-2 gap-2 bg-black/20 p-1 rounded-xl border border-white/10`}>
-                                        <button
-                                            type="button"
-                                            onClick={() => setLanguage('English')}
-                                            disabled={isLoading}
-                                            className={`rounded-lg text-sm font-medium transition-all duration-300 py-3 ${language === 'English' ? 'bg-lumina-primary text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
-                                        >
-                                            English
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => setLanguage('Bengali')}
-                                            disabled={isLoading}
-                                            className={`rounded-lg text-sm font-medium transition-all duration-300 py-3 ${language === 'Bengali' ? 'bg-lumina-primary text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
-                                        >
-                                            Bengali
-                                        </button>
+                            {/* Standard / Level Input */}
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Level / Standard</label>
+                                <div className="relative group/input">
+                                    <div className="absolute left-4 top-3.5 text-gray-500 group-focus-within/input:text-pink-400 transition-colors">
+                                        <GraduationCap size={18} />
                                     </div>
+                                    <input
+                                        type="text"
+                                        list="grade-levels"
+                                        value={grade}
+                                        onChange={(e) => setGrade(e.target.value)}
+                                        placeholder="e.g. Class 12, UPSC, MBA..."
+                                        className="w-full bg-black/30 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-pink-500/50 focus:bg-black/50 focus:ring-2 focus:ring-pink-500/20 transition-all shadow-inner"
+                                        required
+                                        disabled={isLoading}
+                                    />
+                                    <datalist id="grade-levels">
+                                        <option value="Class 10" />
+                                        <option value="Class 12 (Science)" />
+                                        <option value="Undergraduate (B.Tech/B.Sc)" />
+                                        <option value="Postgraduate (MBA/M.Tech)" />
+                                        <option value="UPSC / Civil Services" />
+                                        <option value="JEE / NEET Preparation" />
+                                        <option value="Professional Certification" />
+                                        <option value="Beginner" />
+                                        <option value="Advanced / PhD" />
+                                    </datalist>
+                                </div>
+                                {/* Suggestions Chips */}
+                                <div className="flex flex-wrap gap-2 mt-2 px-1">
+                                    {suggestedGrades.map((g) => (
+                                        <button
+                                            key={g}
+                                            type="button"
+                                            onClick={() => setGrade(g)}
+                                            className="text-[10px] font-medium px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/5 text-gray-400 hover:text-white transition-all cursor-pointer"
+                                        >
+                                            {g}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Language Toggle */}
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Language</label>
+                                <div className="bg-black/30 p-1.5 rounded-xl border border-white/10 flex relative">
+                                    {/* Sliding Background */}
+                                    <div 
+                                        className={`absolute h-[calc(100%-0.75rem)] w-[calc(50%-0.375rem)] bg-gray-700/50 rounded-lg transition-all duration-300 ease-out shadow-sm border border-white/10 ${language === 'Bengali' ? 'translate-x-full' : 'translate-x-0'}`} 
+                                    ></div>
+                                    
+                                    <button
+                                        type="button"
+                                        onClick={() => setLanguage('English')}
+                                        className={`relative flex-1 py-2.5 text-sm font-medium rounded-lg transition-colors z-10 flex items-center justify-center gap-2 ${language === 'English' ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
+                                    >
+                                        <span className="text-xs opacity-70">A</span> English
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setLanguage('Bengali')}
+                                        className={`relative flex-1 py-2.5 text-sm font-medium rounded-lg transition-colors z-10 flex items-center justify-center gap-2 ${language === 'Bengali' ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
+                                    >
+                                        <span className="text-xs opacity-70">অ</span> Bengali
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Visual Loading Indicator Overlay */}
+                        {/* Loading Indicator Overlay */}
                         {isLoading && (
-                            <div className="absolute inset-0 top-0 flex items-center justify-center z-20 animate-fade-in">
-                                <div className="flex flex-col items-center p-6 rounded-2xl">
-                                    <div className="relative mb-4">
-                                        <div className="absolute inset-0 bg-lumina-accent blur-xl opacity-40 animate-pulse"></div>
-                                        <div className="relative bg-white/10 p-4 rounded-full border border-white/20 shadow-2xl backdrop-blur-md">
-                                            <PenTool className="text-white animate-bounce" size={32} />
-                                        </div>
+                            <div className="absolute inset-0 flex flex-col items-center justify-center z-20 animate-fade-in">
+                                <div className="relative w-16 h-16 mb-4">
+                                    <div className="absolute inset-0 bg-purple-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
+                                    <div className="relative bg-[#0F1115] p-4 rounded-full border border-white/10 shadow-2xl flex items-center justify-center">
+                                        <Loader2 className="text-purple-400 animate-spin" size={24} />
                                     </div>
-                                    <h3 className="text-xl font-bold text-white mb-1 animate-pulse">Drafting Notes...</h3>
-                                    <p className="text-sm text-gray-300">Consulting the library of knowledge</p>
                                 </div>
+                                <h3 className="text-lg font-bold text-white tracking-wide animate-pulse">Crafting Notes...</h3>
+                                <p className="text-xs text-gray-500 mt-1 uppercase tracking-widest">Please Wait</p>
                             </div>
                         )}
 
+                        {/* Submit Button */}
                         <button 
                             type="submit" 
                             disabled={isLoading}
-                            className={`w-full mt-8 bg-gradient-to-r from-lumina-primary to-lumina-secondary text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-500 flex items-center justify-center gap-2 relative overflow-hidden
-                            ${isLoading 
-                                ? 'animate-pulse-glow shadow-purple-500/50 cursor-wait opacity-100 scale-[1.02]' 
-                                : 'shadow-purple-900/40 hover:shadow-purple-900/60 hover:scale-[1.02] hover:-translate-y-0.5'
-                            }`}
+                            className={`w-full group relative overflow-hidden rounded-xl p-px transition-all duration-300 ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-[0_0_40px_-10px_rgba(168,85,247,0.5)] hover:-translate-y-0.5'}`}
                         >
-                            {isLoading ? (
-                                <>
-                                    <Loader2 className="animate-spin mr-2" /> 
-                                    <span className="animate-pulse">Generating Magic...</span>
-                                </>
-                            ) : (
-                                <><Sparkles size={20} /> Generate Notes</>
-                            )}
+                            <span className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 rounded-xl"></span>
+                            <div className="relative bg-gradient-to-r from-pink-600 to-purple-700 text-white h-full w-full rounded-xl px-4 py-4 flex items-center justify-center gap-2 font-bold tracking-wide">
+                                <Zap size={18} className={`${isLoading ? 'hidden' : 'fill-current'}`} />
+                                <span>{isLoading ? 'Generating...' : 'Generate Notes'}</span>
+                            </div>
                         </button>
                     </form>
                 </div>
